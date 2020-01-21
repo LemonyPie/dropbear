@@ -1,3 +1,3 @@
-import { tokenize } from './tokenize/tokenize';
+import { tokenize } from './tokenize';
 
 tokenize( '' );
