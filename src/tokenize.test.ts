@@ -1,4 +1,4 @@
-import { tokenize, TokenType } from './tokenize';
+import { ITokenType, tokenize, TokenType } from './tokenize';
 
 describe( tokenize, () => {
   it( 'should return array of tokens', () => {
@@ -19,7 +19,7 @@ describe( tokenize, () => {
   it( 'should recognize parenthesis', () => {
     const input = '()';
     const result = tokenize( input );
-    const expectedResult = [
+    const expectedResult: ITokenType[] = [
       {
         type: TokenType.Parenthesis,
         value: '(',
@@ -29,6 +29,57 @@ describe( tokenize, () => {
         value: ')',
       },
     ];
+
+    expect( result ).toEqual( expectedResult );
+  } );
+
+  it( 'should tokenize single digit as number', () => {
+    const input = '(1 2)';
+    const result = tokenize( input );
+    const expectedResult: ITokenType[] = [
+      {
+        type: TokenType.Parenthesis,
+        value: '(',
+      },
+      {
+        type: TokenType.Number,
+        value: 1,
+      },
+      {
+        type: TokenType.Number,
+        value: 2,
+      },
+      {
+        type: TokenType.Parenthesis,
+        value: ')',
+      },
+    ];
+
+    expect( result ).toEqual( expectedResult );
+  } );
+
+  it( 'should tokenize multi-digit number', () => {
+    const input = '(123 321)';
+    const result = tokenize( input );
+    const expectedResult: ITokenType[] = [
+      {
+        type: TokenType.Parenthesis,
+        value: '(',
+      },
+      {
+        type: TokenType.Number,
+        value: 123,
+      },
+      {
+        type: TokenType.Number,
+        value: 321,
+      },
+      {
+        type: TokenType.Parenthesis,
+        value: ')',
+      },
+    ];
+
     expect( result ).toEqual( expectedResult );
   } );
 } );

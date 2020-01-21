@@ -1,13 +1,25 @@
-import { isParenthesis, isWhitespace } from './identify.utils';
+import { isNumber, isParenthesis, isWhitespace } from './identify.utils';
 
 export enum TokenType {
   'Parenthesis',
+  'Number'
 }
 
+export type ITokenType =
+  {
+    type: TokenType.Parenthesis;
+    value: string;
+  } |
+  {
+    type: TokenType.Number;
+    value: number;
+  }
+
 export interface IToken {
-  type: TokenType,
-  value: string,
+  type: TokenType;
+  value: string | number;
 }
+
 
 export class Token implements IToken {
   constructor(
@@ -17,18 +29,32 @@ export class Token implements IToken {
   }
 }
 
-export const tokenize = ( input: string ): IToken[] => {
-  const tokens: IToken[] = [];
+export const tokenize = ( input: string ): ITokenType[] => {
+  const tokens: ITokenType[] = [];
+  let cursor = 0;
 
-  for ( let cursor = 0; cursor < input.length; cursor++ ) {
+  while ( cursor < input.length ) {
     const character = input[cursor];
 
     if ( isWhitespace( character ) ) {
+      cursor++;
       continue;
     }
 
     if ( isParenthesis( character ) ) {
       tokens.push( new Token( TokenType.Parenthesis, character ) );
+      cursor++;
+      continue;
+    }
+
+    if ( isNumber( character ) ) {
+      let numberAsSting: string = character;
+
+      while ( isNumber( input[++cursor] ) ) {
+        numberAsSting += input[cursor];
+      }
+
+      tokens.push( new Token( TokenType.Number, parseInt( numberAsSting, 10 ) ) );
       continue;
     }
 
