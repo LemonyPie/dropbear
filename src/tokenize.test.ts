@@ -82,4 +82,29 @@ describe( tokenize, () => {
 
     expect( result ).toEqual( expectedResult );
   } );
+
+  it( 'should differentiate numbers and letters (operation instructions)', () => {
+    const input = '(200 words)';
+    const result = tokenize( input );
+    const expectedResult: ITokenType[] = [
+      {
+        type: TokenType.Parenthesis,
+        value: '(',
+      },
+      {
+        type: TokenType.Number,
+        value: 200,
+      },
+      {
+        type: TokenType.Instruction,
+        value: 'words',
+      },
+      {
+        type: TokenType.Parenthesis,
+        value: ')',
+      },
+    ];
+
+    expect( result ).toEqual( expectedResult );
+  } );
 } );
