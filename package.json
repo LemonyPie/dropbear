@@ -1,19 +1,28 @@
 {
-  "name": "",
+  "name": "dropbear",
   "version": "1.0.0",
   "description": "",
   "main": "index.html",
   "scripts": {
-    "start": "parcel index.html --open",
-    "build": "parcel build index.html"
+    "start": "webpack-dev-server --mode development --open",
+    "build": "webpack --mode production"
   },
   "dependencies": {},
   "devDependencies": {
+    "@rollup/plugin-typescript": "^2.1.0",
     "@types/jest": "^24.9.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^3.2.0",
     "jest": "^24.9.0",
-    "parcel-bundler": "^1.6.1",
+    "rollup": "^1.29.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-serve": "^1.0.1",
     "ts-jest": "^24.3.0",
-    "typescript": "^3.7.5"
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
   },
   "keywords": []
 }

@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "jsx": "preserve",
+    "outDir": "./dist/",
+    "module": "esnext",
+    "target": "es5",
     "esModuleInterop": true,
     "sourceMap": true,
     "allowJs": true,
@@ -9,7 +10,7 @@
       "es6",
       "dom"
     ],
-    "rootDir": "src",
+    "rootDir": "./",
     "moduleResolution": "node"
   }
 }
