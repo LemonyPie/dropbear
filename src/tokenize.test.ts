@@ -107,4 +107,29 @@ describe( tokenize, () => {
 
     expect( result ).toEqual( expectedResult );
   } );
+
+  it( 'should handle strings', () => {
+    const input = '(0 "string value")';
+    const result = tokenize( input );
+    const expectedResult: ITokenType[] = [
+      {
+        type: TokenType.Parenthesis,
+        value: '(',
+      },
+      {
+        type: TokenType.Number,
+        value: 0,
+      },
+      {
+        type: TokenType.String,
+        value: 'string value',
+      },
+      {
+        type: TokenType.Parenthesis,
+        value: ')',
+      },
+    ];
+
+    expect( result ).toEqual( expectedResult );
+  } );
 } );

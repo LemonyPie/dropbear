@@ -1,14 +1,15 @@
-import { isLetter, isNumber, isParenthesis, isWhitespace } from './identify.utils';
+import { isLetter, isNumber, isParenthesis, isQuote, isWhitespace } from './identify.utils';
 
 export enum TokenType {
   'Parenthesis',
   'Instruction',
-  'Number'
+  'Number',
+  'String'
 }
 
 export type ITokenType =
   {
-    type: TokenType.Parenthesis | TokenType.Instruction;
+    type: TokenType.Parenthesis | TokenType.Instruction | TokenType.String;
     value: string;
   } |
   {
@@ -60,13 +61,25 @@ export const tokenize = ( input: string ): ITokenType[] => {
     }
 
     if ( isLetter( character ) ) {
-      let literal: string = character;
+      let instruction: string = character;
 
       while ( isLetter( input[++cursor] ) ) {
-        literal += input[cursor];
+        instruction += input[cursor];
       }
 
-      tokens.push( new Token( TokenType.Instruction, literal ) );
+      tokens.push( new Token( TokenType.Instruction, instruction ) );
+      continue;
+    }
+
+    if ( isQuote( character ) ) {
+      let stringLiteral = '';
+
+      while ( !isQuote( input[++cursor] ) ) {
+        stringLiteral += input[cursor];
+      }
+
+      tokens.push( new Token( TokenType.String, stringLiteral ) );
+      cursor++;
       continue;
     }
 
