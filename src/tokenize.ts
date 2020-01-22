@@ -1,4 +1,4 @@
-import { isLetter, isNumber, isParenthesis, isQuote, isWhitespace } from './identify.utils';
+import { isLetter, isNumber, isParenthesis, isQuote, isWhitespace } from './tokenize.utils';
 
 export enum TokenType {
   'Parenthesis',
@@ -7,15 +7,27 @@ export enum TokenType {
   'String'
 }
 
-export type ITokenType =
-  {
-    type: TokenType.Parenthesis | TokenType.Instruction | TokenType.String;
-    value: string;
-  } |
-  {
-    type: TokenType.Number;
-    value: number;
-  }
+export type ITokenNumber = {
+  type: TokenType.Number;
+  value: number;
+}
+
+export type ITokenParenthesis = {
+  type: TokenType.Parenthesis;
+  value: string;
+}
+
+export type ITokenInstruction = {
+  type: TokenType.Instruction;
+  value: string;
+}
+
+export type ITokenString = {
+  type: TokenType.String;
+  value: string;
+}
+
+export type ITokenType = ITokenNumber | ITokenParenthesis | ITokenInstruction | ITokenString;
 
 export interface IToken {
   type: TokenType;
