@@ -5,11 +5,16 @@ export const enum ParseTreeNodeType {
   NumericLiteral,
 }
 
+export interface IParseTreeNode {
+  type: ParseTreeNodeType;
+  value: unknown;
+}
+
 export const parenthesize = tokens => {
   return tokens;
 };
 
-export class NumericLiteral {
+export class NumericLiteral implements IParseTreeNode {
   public readonly type = ParseTreeNodeType.NumericLiteral;
 
   constructor(

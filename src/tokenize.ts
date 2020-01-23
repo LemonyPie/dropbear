@@ -29,16 +29,12 @@ export type ITokenString = {
 
 export type ITokenType = ITokenNumber | ITokenParenthesis | ITokenInstruction | ITokenString;
 
-export interface IToken {
-  type: TokenType;
-  value: string | number;
-}
-
-
-export class Token implements IToken {
+// TODO: find a way to get rid of any
+// Token cannot implement ITokenType as last is union alias
+export class Token {
   constructor(
-    public readonly type,
-    public readonly value,
+    public readonly type: any,
+    public readonly value: any,
   ) {
   }
 }
