@@ -1,5 +1,5 @@
 import { isNumberToken, pop } from './parse.utils';
-import { Token } from './tokenize';
+import { ITokenType } from './tokenize';
 
 export const enum ParseTreeNodeType {
   NumericLiteral,
@@ -18,7 +18,7 @@ export class NumericLiteral {
   }
 }
 
-export const parse = ( tokens: Token[] ) => {
+export const parse = ( tokens: ITokenType[] ) => {
   const token = pop( tokens );
 
   if ( isNumberToken( token ) ) {

@@ -29,19 +29,26 @@ export type ITokenString = {
 
 export type ITokenType = ITokenNumber | ITokenParenthesis | ITokenInstruction | ITokenString;
 
-export interface IToken {
-  type: TokenType;
-  value: string | number;
-}
-
-
-export class Token implements IToken {
+export class Token {
   constructor(
-    public readonly type,
-    public readonly value,
+    public readonly type: ITokenType['type'],
+    public readonly value: ITokenType['value'],
   ) {
   }
 }
+
+const tokenFactory = (type, character): ITokenType => {
+  switch(type) {
+    case TokenType.Parenthesis:
+      return new Token(TokenType.Parenthesis, character) as ITokenParenthesis;
+    case TokenType.String:
+        return new Token(TokenType.String, character) as ITokenString;
+    case TokenType.Instruction:
+      return new Token(TokenType.Instruction, character) as ITokenInstruction;
+    case TokenType.Number:
+      return new Token(TokenType.Number, character) as ITokenNumber
+  }
+};
 
 export const tokenize = ( input: string ): ITokenType[] => {
   const tokens: ITokenType[] = [];
@@ -56,7 +63,7 @@ export const tokenize = ( input: string ): ITokenType[] => {
     }
 
     if ( isParenthesis( character ) ) {
-      tokens.push( new Token( TokenType.Parenthesis, character ) );
+      tokens.push(tokenFactory(TokenType.Parenthesis, character));
       cursor++;
       continue;
     }
@@ -68,7 +75,7 @@ export const tokenize = ( input: string ): ITokenType[] => {
         numberAsSting += input[cursor];
       }
 
-      tokens.push( new Token( TokenType.Number, parseInt( numberAsSting, 10 ) ) );
+      tokens.push( tokenFactory( TokenType.Number, parseInt( numberAsSting, 10 ) ) );
       continue;
     }
 
@@ -79,7 +86,7 @@ export const tokenize = ( input: string ): ITokenType[] => {
         instruction += input[cursor];
       }
 
-      tokens.push( new Token( TokenType.Instruction, instruction ) );
+      tokens.push( tokenFactory( TokenType.Instruction, instruction ) );
       continue;
     }
 
@@ -90,7 +97,7 @@ export const tokenize = ( input: string ): ITokenType[] => {
         stringLiteral += input[cursor];
       }
 
-      tokens.push( new Token( TokenType.String, stringLiteral ) );
+      tokens.push( tokenFactory( TokenType.String, stringLiteral ) );
       cursor++;
       continue;
     }
