@@ -84,7 +84,7 @@ describe( tokenize, () => {
   } );
 
   it( 'should differentiate numbers and letters (operation instructions)', () => {
-    const input = '(200 words)';
+    const input = '(200 add)';
     const result = tokenize( input );
     const expectedResult: ITokenType[] = [
       {
@@ -97,7 +97,7 @@ describe( tokenize, () => {
       },
       {
         type: TokenType.Instruction,
-        value: 'words',
+        value: 'add',
       },
       {
         type: TokenType.Parenthesis,

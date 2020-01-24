@@ -1,10 +1,10 @@
 import { isLetter, isNumber, isParenthesis, isQuote, isWhitespace } from './tokenize.utils';
 
 export enum TokenType {
-  'Parenthesis',
-  'Instruction',
-  'Number',
-  'String'
+  Parenthesis,
+  Instruction,
+  Number,
+  String
 }
 
 export type ITokenNumber = {
@@ -37,7 +37,9 @@ export class Token {
   }
 }
 
-const tokenFactory = (type, character): ITokenType => {
+function tokenFactory(type: TokenType.Number, value: number): ITokenNumber;
+function tokenFactory(type: Exclude<TokenType, TokenType.Number>, value: string): ITokenString | ITokenParenthesis | ITokenInstruction;
+function tokenFactory(type: TokenType, character: number | string): ITokenType {
   switch(type) {
     case TokenType.Parenthesis:
       return new Token(TokenType.Parenthesis, character) as ITokenParenthesis;
@@ -48,7 +50,7 @@ const tokenFactory = (type, character): ITokenType => {
     case TokenType.Number:
       return new Token(TokenType.Number, character) as ITokenNumber
   }
-};
+}
 
 export const tokenize = ( input: string ): ITokenType[] => {
   const tokens: ITokenType[] = [];
