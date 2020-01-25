@@ -29,7 +29,7 @@ export type ITokenString = {
 
 export type ITokenType = ITokenNumber | ITokenParenthesis | ITokenInstruction | ITokenString;
 
-export class Token {
+export class Token implements Pick<ITokenType, 'type' | 'value'> {
   constructor(
     public readonly type: ITokenType['type'],
     public readonly value: ITokenType['value'],
@@ -38,8 +38,8 @@ export class Token {
 }
 
 function tokenFactory(type: TokenType.Number, value: number): ITokenNumber;
-function tokenFactory(type: Exclude<TokenType, TokenType.Number>, value: string): ITokenString | ITokenParenthesis | ITokenInstruction;
-function tokenFactory(type: TokenType, character: number | string): ITokenType {
+function tokenFactory(type: Extract<TokenType, TokenType.String | TokenType.Parenthesis | TokenType.Instruction>, value: string): ITokenString | ITokenParenthesis | ITokenInstruction;
+function tokenFactory(type: TokenType, character: string | number): ITokenType {
   switch(type) {
     case TokenType.Parenthesis:
       return new Token(TokenType.Parenthesis, character) as ITokenParenthesis;

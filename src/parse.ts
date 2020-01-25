@@ -23,7 +23,7 @@ export class NumericLiteral implements IParseTreeNode {
   }
 }
 
-export const parse = ( tokens: ITokenType[] ) => {
+export const parse = ( tokens: ITokenType[] ): IParseTreeNode => {
   const token = pop( tokens );
 
   if ( isNumberToken( token ) ) {
