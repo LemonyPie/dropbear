@@ -1,4 +1,4 @@
-import { ASTNode, parenthesize, parse } from './parse';
+import { ASTNode, parse } from './parse';
 import { ITokenType, TokenType } from './tokenize';
 
 describe( parse, () => {
@@ -6,21 +6,21 @@ describe( parse, () => {
     const tokens: ITokenType[] = [ { type: TokenType.Number, value: 220 } ];
     const expectedAST = { type: ASTNode.NumericLiteral, value: 220 };
 
-    expect( parse( parenthesize( tokens ) ) ).toEqual( expectedAST );
+    expect( parse( tokens ) ).toEqual( expectedAST );
   } );
 
   it( 'should parse StringLiteral', () => {
     const tokens: ITokenType[] = [ { type: TokenType.String, value: 'str' } ];
     const expectedAST = { type: ASTNode.StringLiteral, name: 'str' };
 
-    expect( parse( parenthesize( tokens ) ) ).toEqual( expectedAST );
+    expect( parse( tokens ) ).toEqual( expectedAST );
   } );
 
   it( 'should parse Identifier', () => {
     const tokens: ITokenType[] = [ { type: TokenType.Instruction, value: 'do' } ];
     const expectedAST = { type: ASTNode.Identifier, name: 'do' };
 
-    expect( parse( parenthesize( tokens ) ) ).toEqual( expectedAST );
+    expect( parse( tokens ) ).toEqual( expectedAST );
   } );
 
   it( 'should parse expressions with parenthesis', () => {
@@ -61,7 +61,7 @@ describe( parse, () => {
       ],
     };
 
-    expect( parse( parenthesize( tokens ) ) ).toEqual( expectedAST );
+    expect( parse( tokens ) ).toEqual( expectedAST );
   } );
 
   it( 'should parse nested expressions', () => {
@@ -128,6 +128,6 @@ describe( parse, () => {
       ],
     };
 
-    expect( parse( parenthesize( tokens ) ) ).toEqual( expectedAST );
+    expect( parse( tokens ) ).toEqual( expectedAST );
   } );
 } );

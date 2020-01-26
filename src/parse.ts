@@ -88,7 +88,7 @@ export const parenthesize = ( tokens: ITokenType[] ): ITokenType | ITokenType[] 
 };
 
 
-export const parse = ( inputTokens: ITokenType[] | ITokenType ): IParseTreeNodeType => {
+const parse = ( inputTokens: ITokenType[] | ITokenType ): IParseTreeNodeType => {
   let token;
 
   if ( Array.isArray( inputTokens ) ) {
@@ -116,3 +116,8 @@ export const parse = ( inputTokens: ITokenType[] | ITokenType ): IParseTreeNodeT
     return new Identifier( token.value );
   }
 };
+
+const start = ( tokens: ITokenType[] ): ReturnType<typeof parse> => parse( parenthesize( tokens ) );
+
+export { start as parse };
+
