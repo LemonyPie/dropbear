@@ -81,8 +81,6 @@ export const parse = ( inputTokens: ITokenType[] | ITokenType ): IParseTreeNode 
           rest.map( parse ),
         );
     }
-
-    token = inputTokens[0];
   } else {
     token = inputTokens;
   }
