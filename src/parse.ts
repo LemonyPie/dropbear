@@ -13,7 +13,24 @@ export interface IParseTreeNode {
   type: ASTNode;
 }
 
-export class NumericLiteral implements IParseTreeNode {
+export interface ICallExpression extends IParseTreeNode {
+  name: string;
+  values: IParseTreeNodeType[];
+}
+
+export interface IStringLiteral extends IParseTreeNode {
+  name: string;
+}
+
+export interface INumericLiteral extends IParseTreeNode {
+  value: number;
+}
+
+export interface IIdentifier extends IParseTreeNode {
+  name: string;
+}
+
+export class NumericLiteral implements INumericLiteral {
   public readonly type = ASTNode.NumericLiteral;
 
   constructor(
@@ -22,7 +39,7 @@ export class NumericLiteral implements IParseTreeNode {
   }
 }
 
-export class StringLiteral implements IParseTreeNode {
+export class StringLiteral implements IStringLiteral {
   public readonly type = ASTNode.StringLiteral;
 
   constructor(
@@ -31,7 +48,7 @@ export class StringLiteral implements IParseTreeNode {
   }
 }
 
-export class Identifier implements IParseTreeNode {
+export class Identifier implements IIdentifier {
   public readonly type = ASTNode.Identifier;
 
   constructor(
@@ -40,16 +57,18 @@ export class Identifier implements IParseTreeNode {
   }
 }
 
-export class CallExpression implements IParseTreeNode {
+export class CallExpression implements ICallExpression {
   public readonly type = ASTNode.CallExpression;
 
   constructor(
     public readonly name: string,
-    public readonly values: IParseTreeNode[],
+    public readonly values: IParseTreeNodeType[],
   ) {
   }
 
 }
+
+export type IParseTreeNodeType = ICallExpression | INumericLiteral | IStringLiteral | IIdentifier;
 
 export const parenthesize = ( tokens: ITokenType[] ): ITokenType | ITokenType[] => {
   const token = next( tokens );
@@ -69,7 +88,7 @@ export const parenthesize = ( tokens: ITokenType[] ): ITokenType | ITokenType[] 
 };
 
 
-export const parse = ( inputTokens: ITokenType[] | ITokenType ): IParseTreeNode => {
+export const parse = ( inputTokens: ITokenType[] | ITokenType ): IParseTreeNodeType => {
   let token;
 
   if ( Array.isArray( inputTokens ) ) {

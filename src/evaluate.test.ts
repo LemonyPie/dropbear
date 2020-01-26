@@ -1,10 +1,10 @@
 import { evaluate } from './evaluate';
-import { ASTNode } from './parse';
+import { ASTNode, IParseTreeNodeType } from './parse';
 
 describe( evaluate, () => {
   it( 'should fall back to returning a primitive numeric value', () => {
     const expectedValue = 2;
-    const ast = {
+    const ast: IParseTreeNodeType = {
       type: ASTNode.NumericLiteral,
       value: expectedValue,
     };
@@ -14,9 +14,9 @@ describe( evaluate, () => {
 
   it( 'should fall back to returning a primitive string value', () => {
     const expectedValue = 'Hello';
-    const ast = {
+    const ast: IParseTreeNodeType = {
       type: ASTNode.StringLiteral,
-      value: expectedValue,
+      name: expectedValue,
     };
 
     expect( evaluate( ast ) ).toBe( expectedValue );
@@ -24,7 +24,7 @@ describe( evaluate, () => {
 
   it( 'should evaluate single expression', () => {
     const expectedValue = 5;
-    const ast = {
+    const ast: IParseTreeNodeType = {
       type: ASTNode.CallExpression,
       name: 'add',
       values: [
@@ -38,7 +38,7 @@ describe( evaluate, () => {
 
   it( 'should evaluate nested expressions', () => {
     const expectedValue = 6;
-    const ast = {
+    const ast: IParseTreeNodeType = {
       type: ASTNode.CallExpression,
       name: 'add',
       values: [
@@ -67,5 +67,15 @@ describe( evaluate, () => {
       ],
     };
     expect( evaluate( ast ) ).toBe( expectedValue );
+  } );
+
+  it( 'should throw an error if expression is of unknown type', () => {
+    const ast: IParseTreeNodeType = {
+      type: ASTNode.CallExpression,
+      name: 'unknown',
+      values: [],
+    };
+
+    expect( () => evaluate( ast ) ).toThrow( TypeError );
   } );
 } );
