@@ -4,6 +4,7 @@
     "outDir": "./dist/",
     "module": "esnext",
     "target": "es5",
+    "noResolve": false,
     "esModuleInterop": true,
     "sourceMap": true,
     "allowJs": true,
