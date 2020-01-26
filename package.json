@@ -2,7 +2,10 @@
   "name": "dropbear",
   "version": "1.0.0",
   "description": "",
-  "main": "index.html",
+  "bin": {
+    "dropbear": "bin/dropbear"
+  },
+  "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --env.conf development --mode development --open",
     "build": "webpack --env.conf production --mode production",

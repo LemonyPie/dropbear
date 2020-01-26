@@ -1,7 +1,17 @@
+const path = require("path");
+const webpack = require("webpack");
+
 module.exports = {
   target: "node",
   entry: {
-    repl: "./src/repl.ts"
+    dropbear: "./src/dropbear.ts",
   },
-  devtool: "eval-source-map"
+  devtool: "eval-source-map",
+  plugins: [
+    new webpack.BannerPlugin({banner: "#!/usr/bin/env node", raw: true}),
+  ],
+  output: {
+    filename: "dropbear",
+    path: path.resolve(__dirname, "bin"),
+  },
 };
