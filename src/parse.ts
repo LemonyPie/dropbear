@@ -13,21 +13,44 @@ export interface IParseTreeNode {
   type: ASTNode;
 }
 
+export interface IVisitable {
+  visit( visitor ): IParseTreeNodeType;
+}
+
 export interface ICallExpression extends IParseTreeNode {
   name: string;
   values: IParseTreeNodeType[];
+}
+
+export interface ICallExpressionVisitor {
+  visitCallExpression( node: CallExpression )
 }
 
 export interface IStringLiteral extends IParseTreeNode {
   name: string;
 }
 
+export interface IStringLiteralVisitor {
+  visitStringLiteral( node: StringLiteral );
+}
+
 export interface INumericLiteral extends IParseTreeNode {
   value: number;
 }
 
+export interface INumericLiteralVisitor {
+  visitNumericLiteral( node: NumericLiteral ): INumericLiteral;
+}
+
 export interface IIdentifier extends IParseTreeNode {
   name: string;
+}
+
+export interface IIdentifierVisitor {
+  visitIdentifier( node: Identifier );
+}
+
+export interface IVisitor extends ICallExpressionVisitor, IStringLiteralVisitor, INumericLiteralVisitor, IIdentifierVisitor {
 }
 
 export class NumericLiteral implements INumericLiteral {
@@ -36,6 +59,10 @@ export class NumericLiteral implements INumericLiteral {
   constructor(
     public readonly value: number,
   ) {
+  }
+
+  public visit( visitor: INumericLiteralVisitor ): ReturnType<INumericLiteralVisitor['visitNumericLiteral']> {
+    return visitor.visitNumericLiteral( this );
   }
 }
 
@@ -46,6 +73,10 @@ export class StringLiteral implements IStringLiteral {
     public readonly name: string,
   ) {
   }
+
+  public visit( visitor: IStringLiteralVisitor ): ReturnType<IStringLiteralVisitor['visitStringLiteral']> {
+    return visitor.visitStringLiteral( this );
+  }
 }
 
 export class Identifier implements IIdentifier {
@@ -54,6 +85,10 @@ export class Identifier implements IIdentifier {
   constructor(
     public readonly name: string,
   ) {
+  }
+
+  visit( visitor: IIdentifierVisitor ) {
+    return visitor.visitIdentifier( this );
   }
 }
 
@@ -66,9 +101,13 @@ export class CallExpression implements ICallExpression {
   ) {
   }
 
+  visit( visitor: ICallExpressionVisitor ): ReturnType<ICallExpressionVisitor['visitCallExpression']> {
+    return visitor.visitCallExpression( this );
+  }
 }
 
 export type IParseTreeNodeType = ICallExpression | INumericLiteral | IStringLiteral | IIdentifier;
+export type IVisitableParseTreeNodeType = IParseTreeNodeType & IVisitable;
 
 export const parenthesize = ( tokens: ITokenType[] ): ITokenType | ITokenType[] => {
   const token = next( tokens );
