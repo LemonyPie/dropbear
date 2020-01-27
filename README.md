@@ -1,5 +1,5 @@
 # dropbear
-Language creation tutorial project
+Language creation project in TypeScript
 
 ## REPL
 
