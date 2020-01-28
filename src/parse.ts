@@ -39,7 +39,7 @@ export interface INumericLiteral extends IParseTreeNode {
 }
 
 export interface INumericLiteralVisitor {
-  visitNumericLiteral( node: NumericLiteral ): INumericLiteral;
+  visitNumericLiteral( node: NumericLiteral );
 }
 
 export interface IIdentifier extends IParseTreeNode {
@@ -97,7 +97,7 @@ export class CallExpression implements ICallExpression {
 
   constructor(
     public readonly name: string,
-    public readonly values: IParseTreeNodeType[],
+    public readonly values: IVisitableParseTreeNodeType[],
   ) {
   }
 
@@ -127,7 +127,7 @@ export const parenthesize = ( tokens: ITokenType[] ): ITokenType | ITokenType[] 
 };
 
 
-const parse = ( inputTokens: ITokenType[] | ITokenType ): IParseTreeNodeType => {
+const parse = ( inputTokens: ITokenType[] | ITokenType ): IVisitableParseTreeNodeType => {
   let token;
 
   if ( Array.isArray( inputTokens ) ) {
