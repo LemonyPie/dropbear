@@ -25,12 +25,14 @@ export const repl = async () => {
   repl();
 };
 
-if ( require.main === module || !module.parent ) {
-  console.log(
-    chalk.red(
-      `Welcome to the ${ chalk.bgBlackBright( ' DropBear ' ) } Programming Language`,
-    ),
-  );
+( function () {
+  if ( require.main === module || !module.parent ) {
+    console.log(
+      chalk.red(
+        `Welcome to the ${ chalk.bgBlackBright( ' DropBear ' ) } Programming Language`,
+      ),
+    );
 
-  repl();
-}
+    return repl();
+  }
+} )();

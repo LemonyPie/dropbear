@@ -21,7 +21,17 @@ const getIdentifier = ( node: IIdentifier ) => {
   throw ReferenceError( `${ node.name } is not defined` );
 };
 
+const define = node => {
+  return environment[node.identifier.name] = node.assignment.value;
+};
+
 export const evaluate = ( node: IParseTreeNodeType ): string | number => {
+  console.log( node );
+  // @ts-ignore
+  if ( node.type === 'VariableDeclaration' ) {
+    // @ts-ignore
+    return define( node );
+  }
   if ( isCallExpression( node ) ) {
     return apply( node );
   }
