@@ -16,7 +16,7 @@
     "@babel/types": "^7.8.3",
     "@types/jest": "^24.9.1",
     "clean-webpack-plugin": "^3.0.0",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^5.5.0",
     "jest": "^24.9.0",
     "nodent-compiler": "^3.2.11",
     "nodent-transform": "^3.2.9",
